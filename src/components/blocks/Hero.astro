@@ -1,0 +1,44 @@
+---
+import type { BlockComponentProps } from '@hydrogencms/astro/runtime'
+import type { HeroProps } from '../../../cms/gen/types'
+import { href } from '../../lib/cms'
+
+const { props: p, attrs } = Astro.props as BlockComponentProps<HeroProps>
+// The Balmer lines: the wavelengths hydrogen emits in visible light, placed on a 380-750 nm band.
+const lines = [
+  { name: 'Hδ', nm: 410.2, c: 'var(--h-delta)', row: 0 },
+  { name: 'Hγ', nm: 434.0, c: 'var(--h-gamma)', row: 1 },
+  { name: 'Hβ', nm: 486.1, c: 'var(--h-beta)', row: 0 },
+  { name: 'Hα', nm: 656.3, c: 'var(--h-alpha)', row: 0 },
+]
+const at = (nm: number) => `${(((nm - 380) / 370) * 100).toFixed(2)}%`
+---
+<section {...attrs} class="block hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1>{p.heading}</h1>
+        {p.subheading && <p class="hero-sub">{p.subheading}</p>}
+        <div class="actions">
+          {p.primaryLabel && p.primaryHref && <a class="button primary" href={href(p.primaryHref)}>{p.primaryLabel}</a>}
+          {p.secondaryLabel && p.secondaryHref && <a class="button" href={href(p.secondaryHref)}>{p.secondaryLabel}</a>}
+        </div>
+      </div>
+      <div class="tile" role="img" aria-label="Hydrogen in the periodic table: atomic number 1, symbol H, atomic mass 1.008">
+        <span class="z" aria-hidden="true">1</span>
+        <span class="sym" aria-hidden="true">H</span>
+        <span class="name" aria-hidden="true">Hydrogen</span>
+        <span class="mass" aria-hidden="true">1.008</span>
+      </div>
+    </div>
+    <figure class="spectrum">
+      <div class="spectrum-band" aria-hidden="true">
+        {lines.map((l, i) => <span class="spectrum-line" style={`left:${at(l.nm)};--c:${l.c};--i:${i}`} />)}
+      </div>
+      <div class="spectrum-labels" aria-hidden="true">
+        {lines.map((l) => <span style={`left:${at(l.nm)};--row:${l.row}`}>{l.name}<span class="nm"> {Math.round(l.nm)} nm</span></span>)}
+      </div>
+      <figcaption class="spectrum-caption">The visible emission lines of hydrogen, 380 to 750 nm.</figcaption>
+    </figure>
+  </div>
+</section>

@@ -1,0 +1,11 @@
+---
+// The pages below the home page. The docs live under /docs (Starlight); the CMS channel reserves that path.
+import CmsPage from '../components/CmsPage.astro'
+import { pagePaths } from '../lib/cms'
+
+export async function getStaticPaths() {
+  return (await pagePaths()).map((p) => ({ params: { page: p.replace(/^\/|\/$/g, '') }, props: { path: p } }))
+}
+const { path } = Astro.props
+---
+<CmsPage path={path} />

@@ -1,0 +1,27 @@
+types:
+  landing:
+    page: true
+    children: [page, landing]
+    admin: { icon: layout }
+    fields:
+      title: { type: string, required: true }
+      slug: { type: slug, from: title, index: true }
+      description: { type: text, max: 300 }
+      body: { type: blocks, allow: [hero, prose, features, code, callout], max: 40 }
+
+  page:
+    page: true
+    children: [page]
+    admin: { icon: file-text }
+    fields:
+      title: { type: string, required: true }
+      slug: { type: slug, from: title, index: true }
+      description: { type: text, max: 300 }
+      body: { type: blocks, allow: [prose, features, code, callout], max: 40 }
+
+  siteSettings:
+    singleton: true
+    admin: { icon: settings }
+    fields:
+      siteName: { type: string, required: true }
+      footerText: { type: text }

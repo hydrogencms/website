@@ -1,0 +1,23 @@
+---
+// A page of the CMS: its blocks, under a title unless the page opens with a hero.
+import Blocks from '@hydrogencms/astro/components/Blocks.astro'
+import Layout from '../layouts/Layout.astro'
+import { load } from '../lib/cms'
+import { registry } from './registry'
+
+const { path } = Astro.props as { path: string }
+const { item, links } = await load(path)
+const f = item.fields
+const hero = f.body?.[0]?.type === 'hero'
+---
+<Layout title={f.title} description={f.description}>
+  {!hero && (
+    <header class="page-head">
+      <div class="wrap">
+        <h1>{f.title}</h1>
+        {f.description && <p>{f.description}</p>}
+      </div>
+    </header>
+  )}
+  <Blocks blocks={f.body ?? []} registry={registry} links={links} />
+</Layout>

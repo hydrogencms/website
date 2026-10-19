@@ -1,0 +1,22 @@
+---
+import type { BlockComponentProps } from '@hydrogencms/astro/runtime'
+import type { CodeProps } from '../../../cms/gen/types'
+
+const { props: p, attrs } = Astro.props as BlockComponentProps<CodeProps>
+const shell = (p.language ?? 'sh') === 'sh'
+// Shell sessions: a prompt before each command and dimmed comments; other languages as written.
+const lines = p.code.split('\n').map((l) => {
+  const hash = shell ? l.search(/(^|\s)#/) : -1
+  return hash < 0 ? { cmd: l, comment: '' } : { cmd: l.slice(0, hash), comment: l.slice(hash) }
+})
+---
+<section {...attrs} class="block code">
+  <div class="wrap">
+    <figure>
+      {p.caption && <figcaption>{p.caption}</figcaption>}
+      <pre><code>{lines.map((l, i) => (
+        <>{shell && l.cmd.trim() && <span class="prompt">$ </span>}{l.cmd}{l.comment && <span class="comment">{l.comment}</span>}{i < lines.length - 1 && '\n'}</>
+      ))}</code></pre>
+    </figure>
+  </div>
+</section>

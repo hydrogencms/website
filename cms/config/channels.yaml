@@ -1,0 +1,12 @@
+# One web channel: the Astro site. SITE_URL is its public origin (canonical URLs) and SITE_HOST that origin's host name
+# (the channel matches URLs by host); the site adds its own base path.
+languages:
+  en: {}
+
+channels:
+  web:
+    languages: [en]
+    site: main
+    frontend: "${env:SITE_URL:-http://localhost:4321}"
+    match: { host: "${env:SITE_HOST:-localhost}" }
+    reserved: [/docs/*]

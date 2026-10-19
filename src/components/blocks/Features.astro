@@ -1,0 +1,16 @@
+---
+import type { BlockComponentProps } from '@hydrogencms/astro/runtime'
+import Blocks from '@hydrogencms/astro/components/Blocks.astro'
+import type { FeaturesProps } from '../../../cms/gen/types'
+
+const { props: p, attrs, slots } = Astro.props as BlockComponentProps<FeaturesProps>
+---
+<section {...attrs} class="block features">
+  <div class="wrap">
+    <div class="block-head">
+      <h2>{p.heading}</h2>
+      {p.intro && <p>{p.intro}</p>}
+    </div>
+    <ul class="feature-list"><Blocks {...slots.items} /></ul>
+  </div>
+</section>

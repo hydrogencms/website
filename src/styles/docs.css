@@ -1,0 +1,32 @@
+/* The docs (Starlight) in the landing pages' colours and type. */
+:root {
+  --sl-font: 'Schibsted Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --sl-font-mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+  --sl-color-accent-low: #2a1a2a;
+  --sl-color-accent: #ff6a5e;
+  --sl-color-accent-high: #ffd3cf;
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #e9ebf7;
+  --sl-color-gray-2: #c4c8e0;
+  --sl-color-gray-3: #a3a8c6;
+  --sl-color-gray-4: #545a78;
+  --sl-color-gray-5: #2a2e4f;
+  --sl-color-gray-6: #171a36;
+  --sl-color-black: #0f1124;
+}
+:root[data-theme='light'] {
+  --sl-color-accent-low: #f9dcd9;
+  --sl-color-accent: #c4231b;
+  --sl-color-accent-high: #6e140f;
+  --sl-color-white: #1a1d3a;
+  --sl-color-gray-1: #262a4a;
+  --sl-color-gray-2: #3b4064;
+  --sl-color-gray-3: #545a78;
+  --sl-color-gray-4: #8a8fab;
+  --sl-color-gray-5: #c9ccdb;
+  --sl-color-gray-6: #e9ebf2;
+  --sl-color-gray-7: #f1f2f7;
+  --sl-color-black: #f7f8fb;
+}
+
+.site-title { color: var(--sl-color-white); font-weight: 700; }

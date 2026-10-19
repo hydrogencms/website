@@ -1,0 +1,143 @@
+/* The landing pages. Colours: indigo ink on a cool white, with hydrogen's red Balmer line (H-alpha, 656 nm) as the one
+   accent. The four visible emission lines appear only in the hero's spectrum. */
+:root {
+  --paper: #f7f8fb;
+  --ink: #1a1d3a;
+  --muted: #545a78;
+  --rule: #d9dce8;
+  --accent: #c4231b;
+  --code-bg: #14173a;
+  --code-ink: #e8eaf6;
+  --code-dim: #9095bd;
+  --h-alpha: #ff1f1f;
+  --h-beta: #00d8ff;
+  --h-gamma: #3a1fff;
+  --h-delta: #8a00d4;
+  --font: 'Schibsted Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+  --measure: 68ch;
+  --wide: 72rem;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0f1124;
+    --ink: #e9ebf7;
+    --muted: #a3a8c6;
+    --rule: #2a2e4f;
+    --accent: #ff6a5e;
+    --code-bg: #080a1c;
+    color-scheme: dark;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--paper); }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1.0625rem/1.6 var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration-color: var(--accent); text-decoration-thickness: 0.08em; text-underline-offset: 0.2em; }
+a:hover { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+code { font: 0.9em var(--mono); }
+h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); font-weight: 650; }
+h3 { font-size: 1.0625rem; font-weight: 650; letter-spacing: -0.005em; }
+p { margin: 0; }
+
+.wrap { max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); }
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: var(--gutter); top: 0.75rem; background: var(--paper); padding: 0.5rem 0.75rem; z-index: 10; }
+
+/* header and footer */
+.site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4.25rem; }
+.brand { display: inline-flex; align-items: center; gap: 0.6rem; font-weight: 700; font-size: 1.125rem; text-decoration: none; }
+.brand svg { width: 1.6rem; height: 1.6rem; }
+.site-nav ul { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; list-style: none; margin: 0; padding: 0; }
+.site-nav a { text-decoration: none; font-weight: 500; }
+.site-nav a[aria-current='page'] { text-decoration: underline; text-decoration-color: var(--accent); }
+.site-footer { border-top: 1px solid var(--rule); margin-top: clamp(4rem, 10vw, 7rem); padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9375rem; }
+.site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; }
+.site-footer p { max-width: var(--measure); }
+
+/* blocks: each is a section with the same rhythm */
+.block { padding: clamp(2.5rem, 6vw, 4.5rem) 0 0; }
+.block-head { max-width: var(--measure); display: grid; gap: 0.75rem; margin-bottom: 2rem; }
+.block-head p { color: var(--muted); font-size: 1.125rem; }
+
+/* hero */
+.hero { padding-top: clamp(2.5rem, 8vw, 6rem); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+.hero h1 { font-size: clamp(2.5rem, 6.2vw, 4.6rem); font-weight: 700; letter-spacing: -0.035em; max-width: 14ch; }
+.hero-sub { margin-top: 1.5rem; font-size: clamp(1.125rem, 1.8vw, 1.3125rem); color: var(--muted); max-width: 52ch; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+.button { display: inline-block; padding: 0.7rem 1.2rem; border: 2px solid var(--ink); border-radius: 2px; font-weight: 600; text-decoration: none; }
+.button.primary { background: var(--ink); color: var(--paper); }
+.button.primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.button:not(.primary):hover { border-color: var(--accent); }
+
+/* the element tile: hydrogen as the periodic table prints it */
+.tile {
+  width: clamp(11rem, 26vw, 17.5rem);
+  aspect-ratio: 1;
+  border: 3px solid var(--ink);
+  border-radius: 3px;
+  padding: clamp(0.8rem, 2vw, 1.25rem);
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+}
+.tile .z { font-size: clamp(1.1rem, 2.2vw, 1.5rem); font-weight: 600; }
+.tile .sym { font-size: clamp(5rem, 13vw, 9.5rem); font-weight: 700; line-height: 0.85; letter-spacing: -0.04em; align-self: center; }
+.tile .name { font-size: clamp(0.95rem, 1.6vw, 1.15rem); font-weight: 600; }
+.tile .mass { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* hydrogen's visible spectrum: the Balmer lines at their wavelengths between 380 and 750 nm */
+.spectrum { margin: clamp(2.5rem, 6vw, 4rem) 0 0; }
+.spectrum-band { position: relative; height: 3.25rem; background: #05060f; border: 1px solid var(--rule); border-radius: 2px; }
+.spectrum-line { position: absolute; top: 0; bottom: 0; width: 3px; margin-left: -1.5px; background: var(--c); box-shadow: 0 0 10px 1px var(--c); }
+.spectrum-labels { position: relative; height: 2.6rem; margin-top: 0.4rem; font-size: 0.8125rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.spectrum-labels > span { position: absolute; top: calc(var(--row) * 1.25rem); transform: translateX(-50%); white-space: nowrap; }
+.spectrum-caption { margin-top: 0.25rem; font-size: 0.8125rem; color: var(--muted); }
+@media (prefers-reduced-motion: no-preference) {
+  .spectrum-line { animation: emit 0.9s ease-out both; animation-delay: calc(var(--i) * 140ms + 200ms); }
+  @keyframes emit { from { opacity: 0; transform: scaleY(0.2); } to { opacity: 1; transform: none; } }
+}
+
+/* prose */
+.prose .body { max-width: var(--measure); display: grid; gap: 1rem; font-size: 1.125rem; }
+.prose .body :is(h2, h3) { margin-top: 0.5rem; }
+.prose .body ul, .prose .body ol { margin: 0; padding-left: 1.25rem; }
+
+/* features: a ruled list, two or three across */
+.feature-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: 0 clamp(1.5rem, 4vw, 3rem); }
+.feature { border-top: 2px solid var(--ink); padding: 1rem 0 1.75rem; display: grid; gap: 0.5rem; align-content: start; }
+.feature p { color: var(--muted); }
+.feature h3 a { text-decoration-color: var(--rule); }
+.feature h3 a:hover { text-decoration-color: var(--accent); }
+
+/* code */
+.code figure { margin: 0; max-width: 58rem; }
+.code figcaption { font-weight: 600; margin-bottom: 0.75rem; }
+.code pre { margin: 0; background: var(--code-bg); color: var(--code-ink); border-radius: 3px; padding: 1.25rem 1.4rem; overflow-x: auto; font: 0.9375rem/1.7 var(--mono); }
+.code .prompt { color: var(--code-dim); user-select: none; }
+.code .comment { color: var(--code-dim); }
+
+/* callout */
+.callout .note { max-width: var(--measure); border-left: 4px solid var(--accent); padding: 0.25rem 0 0.25rem 1.25rem; display: grid; gap: 0.5rem; font-size: 1.125rem; }
+.callout a { font-weight: 600; }
+
+/* page title for pages without a hero */
+.page-head { padding-top: clamp(2.5rem, 7vw, 5rem); }
+.page-head h1 { font-size: clamp(2.25rem, 5vw, 3.5rem); font-weight: 700; letter-spacing: -0.03em; }
+.page-head p { margin-top: 1rem; color: var(--muted); font-size: 1.1875rem; max-width: var(--measure); }
+
+@media (max-width: 720px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-grid .tile { order: -1; width: 9rem; }
+  .spectrum-labels .nm { display: none; }
+}

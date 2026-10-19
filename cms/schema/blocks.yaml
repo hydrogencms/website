@@ -1,0 +1,59 @@
+# Links in blocks are strings: a path on this site (/docs/getting-started) gets the site's base path; a full URL is
+# used as it is.
+blocks:
+  hero:
+    label: Hero
+    description: The opening of a landing page, beside the hydrogen element tile
+    icon: layout
+    props:
+      heading: { type: string, required: true, max: 90 }
+      subheading: { type: text, max: 300 }
+      primaryLabel: { type: string, max: 40 }
+      primaryHref: { type: string, max: 300 }
+      secondaryLabel: { type: string, max: 40 }
+      secondaryHref: { type: string, max: 300 }
+
+  prose:
+    label: Text
+    description: A heading and formatted text
+    icon: text
+    props:
+      heading: { type: string, max: 120 }
+      body: { type: richtext, required: true }
+
+  features:
+    label: Features
+    description: A heading, an introduction and a list of features
+    icon: grid
+    props:
+      heading: { type: string, required: true, max: 120 }
+      intro: { type: text, max: 400 }
+    slots:
+      items: { label: Features, allow: [feature], min: 1, max: 24 }
+
+  feature:
+    label: Feature
+    description: One feature with an optional link
+    icon: square
+    props:
+      title: { type: string, required: true, max: 80 }
+      text: { type: text, required: true, max: 400 }
+      href: { type: string, max: 300 }
+
+  code:
+    label: Code
+    description: A terminal session or a file, with a caption
+    icon: code
+    props:
+      caption: { type: string, max: 160 }
+      language: { type: enum, values: [sh, yaml, go, ts], default: sh }
+      code: { type: text, required: true, max: 4000 }
+
+  callout:
+    label: Callout
+    description: A short note with an optional link
+    icon: megaphone
+    props:
+      text: { type: text, required: true, max: 400 }
+      linkLabel: { type: string, max: 40 }
+      href: { type: string, max: 300 }

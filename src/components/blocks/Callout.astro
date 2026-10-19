@@ -1,0 +1,15 @@
+---
+import type { BlockComponentProps } from '@hydrogencms/astro/runtime'
+import type { CalloutProps } from '../../../cms/gen/types'
+import { href } from '../../lib/cms'
+
+const { props: p, attrs } = Astro.props as BlockComponentProps<CalloutProps>
+---
+<section {...attrs} class="block callout">
+  <div class="wrap">
+    <div class="note">
+      <p>{p.text}</p>
+      {p.linkLabel && p.href && <p><a href={href(p.href)}>{p.linkLabel}</a></p>}
+    </div>
+  </div>
+</section>

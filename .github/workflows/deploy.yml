@@ -1,0 +1,77 @@
+name: deploy
+
+# Builds the site and deploys it to GitHub Pages: the landing pages come from cms/content (served by the CMS during the
+# build), the docs from the hydrogen repository's release branch, so they describe the released version. It runs on
+# every push, daily (to pick up a new release's docs) and on demand; the hydrogen repository can also trigger it with
+# a repository_dispatch event of type "docs".
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '23 5 * * *'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [docs]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
+        with:
+          repository: hydrogencms/hydrogen
+          ref: release
+          path: .hydrogen
+          sparse-checkout: docs
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: cms/go.mod
+          cache-dependency-path: cms/go.sum
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - id: pages
+        uses: actions/configure-pages@v6
+      - name: Build
+        env:
+          HYDROGEN_DOCS: .hydrogen/docs
+          SITE_URL: ${{ steps.pages.outputs.origin }}
+          SITE_HOST: ${{ steps.pages.outputs.host }}
+          SITE_BASE: ${{ steps.pages.outputs.base_path }}
+        run: |
+          npm ci
+          scripts/cms.sh --background
+          npm run build
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

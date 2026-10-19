@@ -1,0 +1,55 @@
+---
+// The landing pages' frame: header with the CMS's pages and the docs, the page, the footer from siteSettings.
+import '@fontsource-variable/schibsted-grotesk'
+import '@fontsource-variable/jetbrains-mono'
+import '../styles/site.css'
+import { href, nav, settings } from '../lib/cms'
+
+interface Props { title: string; description?: string }
+const { title, description } = Astro.props
+const [pages, s] = await Promise.all([nav(), settings()])
+const links = [...pages, { name: 'Docs', href: href('/docs/')! }]
+const here = Astro.url.pathname
+const canonical = new URL(here, Astro.site)
+const fullTitle = title === s.siteName ? title : `${title} | ${s.siteName}`
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
+    <meta property="og:title" content={fullTitle} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:url" content={canonical} />
+    <meta name="theme-color" content="#f7f8fb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1124" media="(prefers-color-scheme: dark)" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href={href('/')}>
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="29" rx="2" /><path d="M10 9v14M22 9v14M10 16h12" /></svg>
+          {s.siteName}
+        </a>
+        <nav class="site-nav" aria-label="Main">
+          <ul>
+            {links.map((l) => <li><a href={l.href} aria-current={here === l.href ? 'page' : undefined}>{l.name}</a></li>)}
+            <li><a href="https://github.com/hydrogencms/hydrogen">GitHub</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="wrap">
+        {s.footerText && <p>{s.footerText}</p>}
+        <a href="https://github.com/hydrogencms/website">Source of this site</a>
+      </div>
+    </footer>
+  </body>
+</html>

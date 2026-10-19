@@ -1,0 +1,13 @@
+---
+import type { BlockComponentProps } from '@hydrogencms/astro/runtime'
+import RichText from '@hydrogencms/astro/components/RichText.astro'
+import type { ProseProps } from '../../../cms/gen/types'
+
+const { props: p, attrs, links = {} } = Astro.props as BlockComponentProps<ProseProps>
+---
+<section {...attrs} class="block prose">
+  <div class="wrap">
+    {p.heading && <div class="block-head"><h2>{p.heading}</h2></div>}
+    <div class="body"><RichText doc={p.body} links={links} /></div>
+  </div>
+</section>
